@@ -262,56 +262,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 const materias = controladorMaterias.listaMaterias;
                 mostrarMateriasEnTabla(contenedorMaterias, materias);
             });
-    } else if (currentPage.includes("alumnos.html")) {
+    }  else if (currentPage.includes("alumnos.html")) {
         // Parte 3: Código específico para alumnos.html
         const contenedorAlumnos = document.getElementById('contenedor_alumnos');
-        controladorAlumnos.levantarStorage();
-        mostrarAlumnosEnTabla(contenedorAlumnos, controladorAlumnos.listaAlumnos);
-    }
 
-    // ... (funciones auxiliares y cierre del evento DOMContentLoaded)
+        const inputFiltroNombre = document.getElementById('inputFiltroNombre');
+        const inputFiltroPromedio = document.getElementById('inputFiltroPromedio');
+        const btnAplicarFiltro = document.getElementById('btnAplicarFiltro');
+        const btnLimpiarFiltro = document.getElementById('btnLimpiarFiltro');
 
-    function mostrarMateriasEnTabla(contenedor, materias) {
-        contenedor.innerHTML = `
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Materia</th>
-                        <th scope="col">Fecha de Inicio</th>
-                        <th scope="col">Días de Cursada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${materias.map(materia => `
-                        <tr>
-                            <th scope="row">${materia.nombre}</th>
-                            <td>${materia.fechaInicio}</td>
-                            <td>${materia.diasCursada.join(', ')}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>`;
-    }
+        btnAplicarFiltro.addEventListener('click', () => {
+            const filtroNombre = inputFiltroNombre.value.trim().toLowerCase();
+            const filtroPromedio = parseFloat(inputFiltroPromedio.value);
 
-    function mostrarAlumnosEnTabla(contenedor, alumnos) {
-        contenedor.innerHTML = `
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Alumno</th>
-                        <th scope="col">Notas</th>
-                        <th scope="col">Promedio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${alumnos.map(alumno => `
-                        <tr>
-                            <th scope="row">${alumno.nombre}</th>
-                            <td>${alumno.notas.join(', ')}</td>
-                            <td>${alumno.calcularPromedio().toFixed(2)}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>`;
+            const alumnosFiltrados = controladorAlumnos.listaAlumnos.filter(alumno => {
+                const cumpleFiltroNombre = !filtroNombre || alumno.nombre.toLowerCase().includes(filtroNombre);
+                const cumpleFiltroPromedio = isNaN(filtroPromedio) || alumno.calcularPromedio() >= filtroPromedio;
+                return cumpleFiltroNombre && cumpleFiltroPromedio;
+            });
+
+            controladorAlumnos.mostrarAlumnos(contenedorAlumnos, alumnosFiltrados);
+        });
+
+        btnLimpiarFiltro.addEventListener('click', () => {
+            inputFiltroNombre.value = '';
+            inputFiltroPromedio.value = '';
+            controladorAlumnos.mostrarAlumnos(contenedorAlumnos, controladorAlumnos.listaAlumnos);
+        });
+
+        controladorAlumnos.mostrarAlumnos(contenedorAlumnos, controladorAlumnos.listaAlumnos);
     }
 });
