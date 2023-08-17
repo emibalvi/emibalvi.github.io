@@ -262,7 +262,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const materias = controladorMaterias.listaMaterias;
                 mostrarMateriasEnTabla(contenedorMaterias, materias);
             });
-                // ... (funciones auxiliares y cierre del evento DOMContentLoaded)
+    } else if (currentPage.includes("alumnos.html")) {
+        // Parte 3: Código específico para alumnos.html
+        const contenedorAlumnos = document.getElementById('contenedor_alumnos');
+        controladorAlumnos.levantarStorage();
+        mostrarAlumnosEnTabla(contenedorAlumnos, controladorAlumnos.listaAlumnos);
+    }
+
+    // ... (funciones auxiliares y cierre del evento DOMContentLoaded)
 
     function mostrarMateriasEnTabla(contenedor, materias) {
         contenedor.innerHTML = `
@@ -285,60 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tbody>
             </table>`;
     }
-    } else if (currentPage.includes("alumnos.html")) {
-        // Parte 3: Código específico para alumnos.html
-        const contenedorAlumnos = document.getElementById('contenedor_alumnos');
-        const inputFiltroNombre = document.getElementById('inputFiltroNombre');
-        const inputFiltroPromedio = document.getElementById('inputFiltroPromedio');
-        const btnAplicarFiltro = document.getElementById('btnAplicarFiltro');
-        const btnLimpiarFiltro = document.getElementById('btnLimpiarFiltro');
 
-        btnAplicarFiltro.addEventListener('click', () => {
-            const filtroNombre = inputFiltroNombre.value.trim().toLowerCase();
-            const filtroPromedio = parseFloat(inputFiltroPromedio.value);
-
-            const alumnosFiltrados = controladorAlumnos.listaAlumnos.filter(alumno => {
-                const cumpleFiltroNombre = !filtroNombre || alumno.nombre.toLowerCase().includes(filtroNombre);
-                const cumpleFiltroPromedio = isNaN(filtroPromedio) || alumno.calcularPromedio() >= filtroPromedio;
-                return cumpleFiltroNombre && cumpleFiltroPromedio;
-            });
-
-            mostrarAlumnosEnTabla(contenedorAlumnos, alumnosFiltrados);
-        });
-
-        btnLimpiarFiltro.addEventListener('click', () => {
-            inputFiltroNombre.value = '';
-            inputFiltroPromedio.value = '';
-            mostrarAlumnosEnTabla(contenedorAlumnos, controladorAlumnos.listaAlumnos);
-        });
-
-        controladorAlumnos.levantarStorage();
-        mostrarAlumnosEnTabla(contenedorAlumnos, controladorAlumnos.listaAlumnos);
-    }
-
-
-    function mostrarAlumnosEnTabla(contenedor, alumnos) {
-        contenedor.innerHTML = `
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Alumno</th>
-                        <th scope="col">Notas</th>
-                        <th scope="col">Promedio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${alumnos.map(alumno => `
-                        <tr>
-                            <th scope="row">${alumno.nombre}</th>
-                            <td>${alumno.notas.join(', ')}</td>
-                            <td>${alumno.calcularPromedio().toFixed(2)}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>`;
-    }
-    
     function mostrarAlumnosEnTabla(contenedor, alumnos) {
         contenedor.innerHTML = `
             <table class="table table-hover">
@@ -361,4 +315,3 @@ document.addEventListener('DOMContentLoaded', () => {
             </table>`;
     }
 });
-
