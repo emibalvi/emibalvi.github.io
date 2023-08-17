@@ -1,0 +1,32 @@
+[
+    {
+        "nombre": "Matemáticas",
+        "fechaInicio": "3 de marzo",
+        "diasCursada": ["martes", "jueves"]
+    },
+    {
+        "nombre": "Historia",
+        "fechaInicio": "3 de marzo",
+        "diasCursada": ["lunes", "miércoles"]
+    },
+    {
+        "nombre": "Biología",
+        "fechaInicio": "3 de marzo",
+        "diasCursada": ["martes", "viernes"]
+    },
+    {
+        "nombre": "Literatura",
+        "fechaInicio": "3 de marzo",
+        "diasCursada": ["miércoles", "jueves"]
+    },
+    {
+        "nombre": "Física",
+        "fechaInicio": "3 de marzo",
+        "diasCursada": ["lunes", "jueves"]
+    },
+    {
+        "nombre": "Química",
+        "fechaInicio": "3 de marzo",
+        "diasCursada": ["miércoles", "viernes"]
+    }
+]

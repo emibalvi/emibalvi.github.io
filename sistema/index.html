@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de gestion de alumnos</title>
+
+    <!-- CDN BOOTSWATCH CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/5/journal/bootstrap.min.css">
+
+    <!-- CDN FONTAWESOME CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+</head>
+
+<body>
+    <header>
+        <!-- NAVBAR BOOTSWATCH -->
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Sistema de gestion de alumnos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./index.html">Inicio
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./alumnos.html">Alumnos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./materias.html">Materias</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container mt-5">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del Alumno:</label>
+            <input type="text" class="form-control" id="nombre">
+        </div>
+        <div class="mb-3">
+            <label for="notas" class="form-label">Notas (separadas por comas):</label>
+            <input type="text" class="form-control" id="notas">
+        </div>
+
+        <button class="btn btn-primary" id="btnAgregar">Agregar Alumno</button>
+        <button class="btn btn-primary" id="btnMostrarAlumnos" data-bs-toggle="modal" data-bs-target="#modalAlumnos">
+            Mostrar Alumnos
+        </button>
+        <p id="errorContainer" class="text-danger mt-2"></p>
+        <p id="successMessage" class="text-success mt-2"></p>
+
+
+        <!-- Mostrar la lista de alumnos -->
+        <div class="modal fade" id="modalAlumnos" tabindex="-1" aria-labelledby="modalAlumnosLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAlumnosLabel">Lista de Alumnos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="inputBuscar"
+                            placeholder="Buscar alumno por nombre">
+                        <button class="btn btn-outline-secondary" type="button"
+                            id="btnBuscar">Buscar</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="btn-group mb-3" role="group">
+                            <button type="button" class="btn btn-success"
+                                id="btnAprobadosModal">Aprobados</button>
+                            <button type="button" class="btn btn-danger"
+                                id="btnDesaprobadosModal">Desaprobados</button>
+                            <button type="button" class="btn btn-secondary"
+                                id="btnTodosModal">Todos</button>
+                        </div>
+                        <div id="contenedor_alumnos_modal"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4" id="contenedor_alumnos"></div>
+        
+    </main>
+    <footer class="text-center mt-5">
+        <p>Emiliano Balvidares - Sistema de gestion de alumnos</p>
+    </footer>
+
+    <!-- CDN BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+    <!-- CÓDIGO EN JS -->
+    <script src="./script.js"></script>
+</body>
+
+</html>
