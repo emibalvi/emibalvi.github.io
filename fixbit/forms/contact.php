@@ -1,30 +1,47 @@
 <?php
-// Datos del servidor SMTP de Gmail
-$smtpServer = 'smtp.gmail.com';
-$smtpPort = 587; // El puerto puede variar según el servidor SMTP
-$smtpUsername = 'emibalvi@gmail.com'; // Tu dirección de correo electrónico de Gmail
-$smtpPassword = 'e46612517'; // Tu contraseña de Gmail
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-// Destinatario del correo
-$to = 'emibalvi@gmail.com';
-$subject = 'Asunto del correo';
-$message = 'Este es el contenido del correo';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
 
-// Encabezados del correo
-$headers = "From: $smtpUsername" . "\r\n" .
-    "Reply-To: $smtpUsername" . "\r\n" .
-    "X-Mailer: PHP/" . phpversion();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $name = $_POST["name"];
+  $email = $_POST["email"];
+  $subject = $_POST["subject"];
+  $message = $_POST["message"];
 
-// Configurar el servidor SMTP
-ini_set('smtp_server', $smtpServer);
-ini_set('smtp_port', $smtpPort);
-ini_set('smtp_username', $smtpUsername);
-ini_set('smtp_password', $smtpPassword);
+  $mail = new PHPMailer(true);
 
-// Enviar el correo
-if (mail($to, $subject, $message, $headers)) {
-    echo 'El correo se ha enviado con éxito.';
+  try {
+      // Configuración del servidor SMTP
+      $mail->isSMTP();
+      $mail->Host = 'smtp.hostinger.com'; // Cambia esto al servidor SMTP de Hostinger
+      $mail->SMTPAuth = true;
+      $mail->Username = 'send@fixbit.com.ar'; // Tu dirección de correo de send@fixbit.com.ar
+      $mail->Password = 'MaiLsEnD3R+'; // Tu contraseña de send@fixbit.com.ar
+      $mail->SMTPSecure = 'ssl'; // Cambia esto a 'tls' si es necesario
+      $mail->Port = 465; // El puerto debe ser 465 para SSL
+
+      // Remitente
+      $mail->setFrom($email, $name);
+
+      // Destinatario
+      $mail->addAddress('correo-destino@dominio-destino.com');
+
+      // Asunto y contenido del correo
+      $mail->Subject = $subject;
+      $mail->Body = $message;
+
+      // Envía el correo
+      $mail->send();
+      echo "Tu mensaje fue enviado con éxito. ¡Gracias!";
+  } catch (Exception $e) {
+      echo "Error al enviar el correo: {$mail->ErrorInfo}";
+  }
 } else {
-    echo 'Error al enviar el correo.';
+  echo "Error al enviar el formulario.";
 }
 ?>
