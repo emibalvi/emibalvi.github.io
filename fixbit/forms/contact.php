@@ -1,19 +1,30 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $subject = $_POST["subject"];
-    $message = $_POST["message"];
+// Datos del servidor SMTP de Gmail
+$smtpServer = 'smtp.gmail.com';
+$smtpPort = 587; // El puerto puede variar según el servidor SMTP
+$smtpUsername = 'emibalvi@gmail.com'; // Tu dirección de correo electrónico de Gmail
+$smtpPassword = 'e46612517'; // Tu contraseña de Gmail
 
-    // Aquí puedes realizar validaciones y enviar el correo electrónico, por ejemplo:
-    $to = "emibalvi@gmail.com";
-    $headers = "From: $email\r\n";
-    $headers .= "Reply-To: $email\r\n";
+// Destinatario del correo
+$to = 'emibalvi@gmail.com';
+$subject = 'Asunto del correo';
+$message = 'Este es el contenido del correo';
 
-    mail($to, $subject, $message, $headers);
+// Encabezados del correo
+$headers = "From: $smtpUsername" . "\r\n" .
+    "Reply-To: $smtpUsername" . "\r\n" .
+    "X-Mailer: PHP/" . phpversion();
 
-    // Redirige a una página de éxito después de enviar el formulario
-    header("Location: success.html");
-    exit();
+// Configurar el servidor SMTP
+ini_set('smtp_server', $smtpServer);
+ini_set('smtp_port', $smtpPort);
+ini_set('smtp_username', $smtpUsername);
+ini_set('smtp_password', $smtpPassword);
+
+// Enviar el correo
+if (mail($to, $subject, $message, $headers)) {
+    echo 'El correo se ha enviado con éxito.';
+} else {
+    echo 'Error al enviar el correo.';
 }
 ?>
