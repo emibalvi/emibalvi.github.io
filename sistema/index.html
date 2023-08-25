@@ -50,9 +50,6 @@
                                 Clima
                             </a>
                         </li>
-                        
-                        <!-- Agrega este botón en tu barra de navegación -->
-
                     </ul>
                 </div>
             </div>
@@ -72,10 +69,10 @@
         <button class="btn btn-primary" id="btnMostrarAlumnos" data-bs-toggle="modal" data-bs-target="#modalAlumnos">
             Mostrar Alumnos
         </button>
-        
+
         <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalInstructivo">
             Instructivo de Uso
-          </button>
+        </button>
 
         <p id="errorContainer" class="text-danger mt-2"></p>
         <p id="successMessage" class="text-success mt-2"></p>
@@ -129,29 +126,32 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalInstructivo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalInstructivo" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Bienvenido/a al sistema de gestión de alumnos</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bienvenido/a al sistema de gestión de alumnos
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <p>Instructivo de uso:</p>
+                        <ul>
+                            <li>Ingrese el nombre del alumno y sus notas separadas por comas.</li>
+                            <li>Luego, haga clic en el botón "Agregar alumno" para confirmar el nuevo alumno.</li>
+                            <li>Puede verificar los alumnos cargados desde el botón "Mostrar alumnos", donde podrá ver
+                                todos los alumnos o filtrarlos por aprobados o desaprobados.</li>
+                            <li>Desde este menú, también podrá eliminar los alumnos.</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  
-                  <p>Instructivo de uso:</p>
-                  <ul>
-                    <li>Ingrese el nombre del alumno y sus notas separadas por comas.</li>
-                    <li>Luego, haga clic en el botón "Agregar alumno" para confirmar el nuevo alumno.</li>
-                    <li>Puede verificar los alumnos cargados desde el botón "Mostrar alumnos", donde podrá ver todos los alumnos o filtrarlos por aprobados o desaprobados.</li>
-                    <li>Desde este menú, también podrá eliminar los alumnos.</li>
-                  </ul>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
 
         <!-- Contenedor para mostrar las noticias en el modal -->
         <div class="modal fade" id="modalNoticias" tabindex="-1" aria-labelledby="modalNoticiasLabel"
@@ -181,7 +181,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="contenedor_modal_clima">
-                        <!-- Aquí se mostrarán los datos del clima -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
