@@ -1,32 +1,32 @@
 [
     {
         "nombre": "Matemáticas",
-        "fechaInicio": "3 de marzo",
-        "diasCursada": ["martes", "jueves"]
+        "fechaInicio": "5 de Marzo",
+        "diasCursada": ["Martes", "Jueves"]
     },
     {
         "nombre": "Historia",
-        "fechaInicio": "3 de marzo",
-        "diasCursada": ["lunes", "miércoles"]
+        "fechaInicio": "4 de Marzo",
+        "diasCursada": ["Lunes", "Miércoles"]
     },
     {
         "nombre": "Biología",
-        "fechaInicio": "3 de marzo",
-        "diasCursada": ["martes", "viernes"]
+        "fechaInicio": "5 de Marzo",
+        "diasCursada": ["Martes", "Viernes"]
     },
     {
         "nombre": "Literatura",
-        "fechaInicio": "3 de marzo",
-        "diasCursada": ["miércoles", "jueves"]
+        "fechaInicio": "6 de Marzo",
+        "diasCursada": ["Miércoles", "Jueves"]
     },
     {
         "nombre": "Física",
-        "fechaInicio": "3 de marzo",
-        "diasCursada": ["lunes", "jueves"]
+        "fechaInicio": "4 de Marzo",
+        "diasCursada": ["Lunes", "Jueves"]
     },
     {
         "nombre": "Química",
-        "fechaInicio": "3 de marzo",
-        "diasCursada": ["miércoles", "viernes"]
+        "fechaInicio": "6 de Marzo",
+        "diasCursada": ["Miércoles", "Viernes"]
     }
 ]

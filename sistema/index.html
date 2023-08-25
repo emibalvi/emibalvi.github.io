@@ -15,9 +15,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- SWEETALERT2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
 </head>
 
 <body>
@@ -33,16 +30,29 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="./index.html">Inicio
+                            <a class="nav-link active" href="#">Inicio
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./alumnos.html">Alumnos</a>
+                            <a class="nav-link" href="#" id="btnMostrarMaterias" data-bs-toggle="modal"
+                                data-bs-target="#modalMaterias">
+                                Materias
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./materias.html">Materias</a>
+                            <a class="nav-link" href="#" id="btnMostrarNoticias">
+                                Noticias
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="btnMostrarClima">
+                                Clima
+                            </a>
+                        </li>
+                        
+                        <!-- Agrega este botón en tu barra de navegación -->
+
                     </ul>
                 </div>
             </div>
@@ -62,48 +72,123 @@
         <button class="btn btn-primary" id="btnMostrarAlumnos" data-bs-toggle="modal" data-bs-target="#modalAlumnos">
             Mostrar Alumnos
         </button>
+        
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalInstructivo">
+            Instructivo de Uso
+          </button>
+
         <p id="errorContainer" class="text-danger mt-2"></p>
         <p id="successMessage" class="text-success mt-2"></p>
 
 
         <!-- Mostrar la lista de alumnos -->
-        <div class="modal fade" id="modalAlumnos" tabindex="-1" aria-labelledby="modalAlumnosLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="modalAlumnos" tabindex="-1" aria-labelledby="modalAlumnosLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
 
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalAlumnosLabel">Lista de Alumnos</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="inputBuscar"
-                            placeholder="Buscar alumno por nombre">
-                        <button class="btn btn-outline-secondary" type="button"
-                            id="btnBuscar">Buscar</button>
+                        <input type="text" class="form-control" id="inputBuscar" placeholder="Buscar alumno por nombre">
+                        <button class="btn btn-outline-secondary" type="button" id="btnBuscar">Buscar</button>
                     </div>
                     <div class="modal-body">
                         <div class="btn-group mb-3" role="group">
-                            <button type="button" class="btn btn-success"
-                                id="btnAprobadosModal">Aprobados</button>
-                            <button type="button" class="btn btn-danger"
-                                id="btnDesaprobadosModal">Desaprobados</button>
-                            <button type="button" class="btn btn-secondary"
-                                id="btnTodosModal">Todos</button>
+                            <button type="button" class="btn btn-success" id="btnAprobadosModal">Aprobados</button>
+                            <button type="button" class="btn btn-danger" id="btnDesaprobadosModal">Desaprobados</button>
+                            <button type="button" class="btn btn-secondary" id="btnTodosModal">Todos</button>
                         </div>
                         <div id="contenedor_alumnos_modal"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mt-4" id="contenedor_alumnos"></div>
-        
+
+        <div class="modal fade" id="modalMaterias" tabindex="-1" aria-labelledby="modalMateriasLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalMateriasLabel">Lista de Materias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="contenedor_materias_modal"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalInstructivo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Bienvenido/a al sistema de gestión de alumnos</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  
+                  <p>Instructivo de uso:</p>
+                  <ul>
+                    <li>Ingrese el nombre del alumno y sus notas separadas por comas.</li>
+                    <li>Luego, haga clic en el botón "Agregar alumno" para confirmar el nuevo alumno.</li>
+                    <li>Puede verificar los alumnos cargados desde el botón "Mostrar alumnos", donde podrá ver todos los alumnos o filtrarlos por aprobados o desaprobados.</li>
+                    <li>Desde este menú, también podrá eliminar los alumnos.</li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- Contenedor para mostrar las noticias en el modal -->
+        <div class="modal fade" id="modalNoticias" tabindex="-1" aria-labelledby="modalNoticiasLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalNoticiasLabel">Noticias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="contenedor_modal_noticias"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Clima -->
+        <div class="modal fade" id="modalClima" tabindex="-1" aria-labelledby="modalClimaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalClimaLabel">Pronóstico del Clima</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="contenedor_modal_clima">
+                        <!-- Aquí se mostrarán los datos del clima -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <footer class="text-center mt-5">
         <p>Emiliano Balvidares - Sistema de gestion de alumnos</p>
@@ -113,6 +198,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- CÓDIGO EN JS -->
     <script src="./script.js"></script>
