@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nombreInput = document.getElementById('nombre');
     const notasInput = document.getElementById('notas');
     const errorContainer = document.getElementById('errorContainer');
-    const contenedorAlumnos = document.getElementById('contenedor_alumnos');
     const contenedorAlumnosModal = document.getElementById('contenedor_alumnos_modal');
     const btnMostrarAlumnos = document.getElementById('btnMostrarAlumnos');
     const btnAprobadosModal = document.getElementById('btnAprobadosModal');
@@ -111,14 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnBuscar = document.getElementById('btnBuscar');
     const btnMostrarMaterias = document.getElementById('btnMostrarMaterias');
     const contenedorMateriasModal = document.getElementById('contenedor_materias_modal');
-    const btnMostrarNoticias = document.getElementById('btnMostrarNoticias');
-    const contenedorNoticias = document.getElementById('contenedor_modal_noticias');
     const btnMostrarClima = document.getElementById('btnMostrarClima');
     const modalInstructivo = new bootstrap.Modal(document.getElementById('modalInstructivo'));
     const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
     // Abrir el instructivo al abrir la web
     modalInstructivo.show();
+
+    inputBuscar.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            btnBuscar.click();
+            event.preventDefault();
+        }
+    });
 
     nombreInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -153,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Función para mostrar las materias en el modal
+    // Mostrar las materias en el modal
     function mostrarMaterias(contenedor, materias) {
         contenedor.innerHTML = '';
 
@@ -215,13 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
         controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
     });
 
-    // Filtrar y mostrar aprobados
+    // Filtrar aprobados
     btnAprobadosModal.addEventListener('click', () => {
         const aprobados = controladorAlumnos.listaAlumnos.filter(alumno => alumno.calcularPromedio() >= 7);
         controladorAlumnos.mostrarAlumnos(contenedorAlumnosModal, aprobados);
     });
 
-    // Filtrar y mostrar desaprobados
+    // Filtrar desaprobados
     btnDesaprobadosModal.addEventListener('click', () => {
         const desaprobados = controladorAlumnos.listaAlumnos.filter(alumno => alumno.calcularPromedio() < 7);
         controladorAlumnos.mostrarAlumnos(contenedorAlumnosModal, desaprobados);
@@ -270,27 +274,24 @@ contenedorAlumnosModal.addEventListener('click', (event) => {
     }
 });
 
-// Función para abrir el modal de edición y cargar datos del alumno
+// Abrir el modal de edición y cargar datos del alumno
 function abrirModalEdicion(alumno, indice) {
     const modalEditarAlumno = new bootstrap.Modal(document.getElementById('modalEditarAlumno'));
     const nuevoNombreInput = document.getElementById('nuevoNombre');
     const nuevasNotasInput = document.getElementById('nuevasNotas');
-    const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
     nuevoNombreInput.value = alumno.nombre;
     nuevasNotasInput.value = alumno.notas.join(', ');
-
+    
     modalEditarAlumno.show();
 
-    // Agregar event listener para Enter en nuevoNombreInput
     nuevoNombreInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
-            nuevasNotasInput.focus(); // Establecer el foco en nuevasNotasInput
+            nuevasNotasInput.focus(); 
             event.preventDefault();
         }
     });
 
-    // Agregar event listener para Enter en nuevasNotasInput
     nuevasNotasInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
             guardarCambios();
@@ -301,22 +302,21 @@ function abrirModalEdicion(alumno, indice) {
 
     btnGuardarCambios.addEventListener('click', () => {
         guardarCambios();
-        modalEditarAlumno.hide();
+        
     });
 
     function guardarCambios() {
         const nuevoNombre = nuevoNombreInput.value.trim();
         const nuevasNotas = nuevasNotasInput.value.split(',').map((nota) => parseFloat(nota.trim()));
-
+    
         const notasValidas = nuevasNotas.every((nota) => !isNaN(nota) && nota >= 0 && nota <= 10);
-
+    
         if (nuevoNombre.trim() && nuevasNotas.length > 0 && notasValidas) {
-            // Actualizar información del alumno
             alumno.nombre = nuevoNombre.trim();
             alumno.notas = nuevasNotas;
             controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
             controladorAlumnos.guardarEnStorage();
-
+    
             Swal.fire({
                 icon: 'success',
                 title: 'Alumno actualizado',
@@ -324,6 +324,9 @@ function abrirModalEdicion(alumno, indice) {
                 showConfirmButton: false,
                 timer: 1200
             });
+    
+            // Cerrar el modal solo si los datos son correctos
+            modalEditarAlumno.hide();
         } else {
             Swal.fire({
                 icon: 'error',
@@ -331,53 +334,10 @@ function abrirModalEdicion(alumno, indice) {
                 text: 'Por favor ingrese un nombre válido y notas válidas (0-10) separadas por comas.',
                 confirmButtonText: 'Cerrar'
             });
+            // No cerrar el modal en caso de error
         }
     }
 }
-
-     // Función para mostrar el modal de noticias
-    function mostrarModalNoticias() {
-        obtenerNoticias(); // Obtener las noticias antes de abrir el modal
-        $('#modalNoticias').modal('show'); // Abre el modal de noticias
-    }
-
-    btnMostrarNoticias.addEventListener('click', mostrarModalNoticias);
-
-    // Función para obtener las noticias de la API de GNews
-    async function obtenerNoticias() {
-        try {
-            const apiKey = '6bdb9c0241cf4ae5a8eccaef45015115'; // Tu clave de API de NewsAPI
-            const apiUrl = `https://newsapi.org/v2/everything?domains=clarin.com&q=science&apiKey=${apiKey}`;
-
-            const response = await fetch(apiUrl);
-
-            if (!response.ok) {
-                throw new Error('No se pudo obtener las noticias.');
-            }
-
-            const noticias = await response.json();
-            mostrarNoticias(noticias.articles);
-        } catch (error) {
-            console.error(error);
-            alert('Hubo un error al obtener las noticias.');
-        }
-    }
-
-    // Función para mostrar las noticias en el modal
-    function mostrarNoticias(noticias) {
-        contenedorNoticias.innerHTML = '';
-
-        noticias.forEach((noticia) => {
-            contenedorNoticias.innerHTML += `
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">${noticia.title}</h5>
-                        <p class="card-text">${noticia.description}</p>
-                        <a href="${noticia.url}" target="_blank" class="btn btn-primary">Leer más</a>
-                    </div>
-                </div>`;
-        });
-    }
 
 
     // Función para mostrar el modal de clima
