@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de gestion de alumnos</title>
-
+    <link href="./favicon.png" rel="icon">
     <!-- CDN BOOTSWATCH CSS -->
     <link rel="stylesheet" href="https://bootswatch.com/5/journal/bootstrap.min.css">
 
@@ -50,6 +50,9 @@
                                 Clima
                             </a>
                         </li>
+                        
+                        <!-- Agrega este botón en tu barra de navegación -->
+
                     </ul>
                 </div>
             </div>
@@ -122,28 +125,52 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalInstructivo" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="modalInstructivo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Bienvenido/a al sistema de gestión de alumnos</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  
+                  <p>Instructivo de uso:</p>
+                  <ul>
+                    <li>Ingrese el nombre del alumno y sus notas separadas por comas.</li>
+                    <li>Luego, haga clic en el botón "Agregar alumno" para confirmar el nuevo alumno.</li>
+                    <li>Puede verificar los alumnos cargados desde el botón "Mostrar alumnos", donde podrá ver todos los alumnos o filtrarlos por aprobados o desaprobados.</li>
+                    <li>Desde este menú, también podrá eliminar los alumnos.</li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modalEditarAlumno" tabindex="-1" aria-labelledby="modalEditarAlumnoLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Bienvenido/a al sistema de gestión de alumnos
-                        </h5>
+                        <h5 class="modal-title" id="modalEditarAlumnoLabel">Editar Alumno</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
-                        <p>Instructivo de uso:</p>
-                        <ul>
-                            <li>Ingrese el nombre del alumno y sus notas separadas por comas.</li>
-                            <li>Luego, haga clic en el botón "Agregar alumno" para confirmar el nuevo alumno.</li>
-                            <li>Puede verificar los alumnos cargados desde el botón "Mostrar alumnos", donde podrá ver
-                                todos los alumnos o filtrarlos por aprobados o desaprobados.</li>
-                            <li>Desde este menú, también podrá eliminar los alumnos.</li>
-                        </ul>
+                        <form id="formularioEditarAlumno">
+                            <div class="mb-3">
+                                <label for="nuevoNombre" class="form-label">Nuevo Nombre</label>
+                                <input type="text" class="form-control" id="nuevoNombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nuevasNotas" class="form-label">Nuevas Notas (separadas por comas)</label>
+                                <input type="text" class="form-control" id="nuevasNotas" required>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="btnGuardarCambios">Guardar Cambios</button>
                     </div>
                 </div>
             </div>
@@ -177,6 +204,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="contenedor_modal_clima">
+                        <!-- Aquí se mostrarán los datos del clima -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

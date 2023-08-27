@@ -20,7 +20,8 @@ class Alumno {
                 <h5 class="card-title">${this.nombre}</h5>
                 <p class="card-text">Notas: ${this.notas.join(', ')}</p>
                 <p class="card-text">Promedio: ${this.calcularPromedio().toFixed(2)}</p>
-                <button class="btn btn-danger btn-eliminar">Eliminar Alumno</button>
+                <button class="btn btn-primary btn-eliminar">Eliminar Alumno</button>
+                <button class="btn btn-danger btn-editar">Editar Alumno</button>
             </div>
         </div>`;
     }
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contenedorNoticias = document.getElementById('contenedor_modal_noticias');
     const btnMostrarClima = document.getElementById('btnMostrarClima');
     const modalInstructivo = new bootstrap.Modal(document.getElementById('modalInstructivo'));
+    const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
     // Abrir el instructivo al abrir la web
     modalInstructivo.show();
@@ -131,7 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
         }
     });
-    
+
+
     btnMostrarMaterias.addEventListener('click', async () => {
         try {
             // Cargar las materias desde el archivo materias.json
@@ -250,7 +253,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-    }); // Función para mostrar el modal de noticias
+    });
+    // Editar un alumno
+    
+contenedorAlumnosModal.addEventListener('click', (event) => {
+    
+    if (event.target.classList.contains('btn-editar')) {
+        const tarjeta = event.target.closest('.card');
+        if (tarjeta) {
+            const indice = Array.from(contenedorAlumnosModal.children).indexOf(tarjeta);
+            if (indice !== -1) {
+                const alumno = controladorAlumnos.listaAlumnos[indice];
+                abrirModalEdicion(alumno, indice);
+            }
+        }
+    }
+});
+
+// Función para abrir el modal de edición y cargar datos del alumno
+function abrirModalEdicion(alumno, indice) {
+    const modalEditarAlumno = new bootstrap.Modal(document.getElementById('modalEditarAlumno'));
+    const nuevoNombreInput = document.getElementById('nuevoNombre');
+    const nuevasNotasInput = document.getElementById('nuevasNotas');
+    const btnGuardarCambios = document.getElementById('btnGuardarCambios');
+
+    nuevoNombreInput.value = alumno.nombre;
+    nuevasNotasInput.value = alumno.notas.join(', ');
+
+    modalEditarAlumno.show();
+
+    // Agregar event listener para Enter en nuevoNombreInput
+    nuevoNombreInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            nuevasNotasInput.focus(); // Establecer el foco en nuevasNotasInput
+            event.preventDefault();
+        }
+    });
+
+    // Agregar event listener para Enter en nuevasNotasInput
+    nuevasNotasInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            guardarCambios();
+            modalEditarAlumno.hide();
+            event.preventDefault();
+        }
+    });
+
+    btnGuardarCambios.addEventListener('click', () => {
+        guardarCambios();
+        modalEditarAlumno.hide();
+    });
+
+    function guardarCambios() {
+        const nuevoNombre = nuevoNombreInput.value.trim();
+        const nuevasNotas = nuevasNotasInput.value.split(',').map((nota) => parseFloat(nota.trim()));
+
+        const notasValidas = nuevasNotas.every((nota) => !isNaN(nota) && nota >= 0 && nota <= 10);
+
+        if (nuevoNombre.trim() && nuevasNotas.length > 0 && notasValidas) {
+            // Actualizar información del alumno
+            alumno.nombre = nuevoNombre.trim();
+            alumno.notas = nuevasNotas;
+            controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
+            controladorAlumnos.guardarEnStorage();
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Alumno actualizado',
+                text: 'Los datos del alumno se han actualizado correctamente.',
+                showConfirmButton: false,
+                timer: 1200
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor ingrese un nombre válido y notas válidas (0-10) separadas por comas.',
+                confirmButtonText: 'Cerrar'
+            });
+        }
+    }
+}
+
+     // Función para mostrar el modal de noticias
     function mostrarModalNoticias() {
         obtenerNoticias(); // Obtener las noticias antes de abrir el modal
         $('#modalNoticias').modal('show'); // Abre el modal de noticias
