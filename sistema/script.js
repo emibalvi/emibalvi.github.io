@@ -20,8 +20,8 @@ class Alumno {
                 <h5 class="card-title">${this.nombre}</h5>
                 <p class="card-text">Notas: ${this.notas.join(', ')}</p>
                 <p class="card-text">Promedio: ${this.calcularPromedio().toFixed(2)}</p>
-                <button class="btn btn-primary btn-eliminar">Eliminar Alumno</button>
-                <button class="btn btn-danger btn-editar">Editar Alumno</button>
+                <button class="btn btn-primary btn-eliminar btn-sm">Eliminar</button>
+                <button class="btn btn-info btn-editar btn-sm">Editar</button>
             </div>
         </div>`;
     }
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalInstructivo = new bootstrap.Modal(document.getElementById('modalInstructivo'));
     const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
-    // Abrir el instructivo al abrir la web
+    // Abrir el instructivo al principio
     modalInstructivo.show();
 
     inputBuscar.addEventListener('keydown', (event) => {
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             listaMaterias = await response.json();
 
-            // Mostrar las materias en el modal
+            // Mostrar las materias
             mostrarMaterias(contenedorMateriasModal, listaMaterias);
         } catch (error) {
             console.error(error);
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mostrar las materias en el modal
+    // Mostrar las materias
     function mostrarMaterias(contenedor, materias) {
         contenedor.innerHTML = '';
 
@@ -214,24 +214,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mostrar la lista de alumnos
+    
     btnMostrarAlumnos.addEventListener('click', () => {
         controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
     });
 
-    // Filtrar aprobados
+    
     btnAprobadosModal.addEventListener('click', () => {
         const aprobados = controladorAlumnos.listaAlumnos.filter(alumno => alumno.calcularPromedio() >= 7);
         controladorAlumnos.mostrarAlumnos(contenedorAlumnosModal, aprobados);
     });
 
-    // Filtrar desaprobados
+    
     btnDesaprobadosModal.addEventListener('click', () => {
         const desaprobados = controladorAlumnos.listaAlumnos.filter(alumno => alumno.calcularPromedio() < 7);
         controladorAlumnos.mostrarAlumnos(contenedorAlumnosModal, desaprobados);
     });
 
-    // Mostrar todos los alumnos
+    
     btnTodosModal.addEventListener('click', () => {
         controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
     });
@@ -325,7 +325,7 @@ function abrirModalEdicion(alumno, indice) {
                 timer: 1200
             });
     
-            // Cerrar el modal solo si los datos son correctos
+            
             modalEditarAlumno.hide();
         } else {
             Swal.fire({
@@ -334,7 +334,7 @@ function abrirModalEdicion(alumno, indice) {
                 text: 'Por favor ingrese un nombre válido y notas válidas (0-10) separadas por comas.',
                 confirmButtonText: 'Cerrar'
             });
-            // No cerrar el modal en caso de error
+            
         }
     }
 }
