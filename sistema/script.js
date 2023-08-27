@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnMostrarMaterias.addEventListener('click', async () => {
         try {
             // Cargar las materias desde el archivo materias.json
-            const response = await fetch('materias.json');
+            const response = await fetch('./materias.json');
             if (!response.ok) {
                 throw new Error('No se pudo cargar el archivo de materias.');
             }
@@ -285,26 +285,25 @@ function abrirModalEdicion(alumno, indice) {
     
     modalEditarAlumno.show();
 
-    nuevoNombreInput.addEventListener('keyup', (event) => {
+    nuevoNombreInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-            nuevasNotasInput.focus(); 
             event.preventDefault();
+            nuevasNotasInput.focus(); 
+
         }
     });
 
-    nuevasNotasInput.addEventListener('keyup', (event) => {
+    nuevasNotasInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             guardarCambios();
-            modalEditarAlumno.hide();
-            event.preventDefault();
+            event.preventDefault(); 
         }
     });
-
+    
     btnGuardarCambios.addEventListener('click', () => {
         guardarCambios();
-        
     });
-
+    
     function guardarCambios() {
         const nuevoNombre = nuevoNombreInput.value.trim();
         const nuevasNotas = nuevasNotasInput.value.split(',').map((nota) => parseFloat(nota.trim()));
@@ -325,7 +324,6 @@ function abrirModalEdicion(alumno, indice) {
                 timer: 1200
             });
     
-            
             modalEditarAlumno.hide();
         } else {
             Swal.fire({
@@ -333,8 +331,8 @@ function abrirModalEdicion(alumno, indice) {
                 title: 'Error',
                 text: 'Por favor ingrese un nombre válido y notas válidas (0-10) separadas por comas.',
                 confirmButtonText: 'Cerrar'
-            });
             
+            });
         }
     }
 }
