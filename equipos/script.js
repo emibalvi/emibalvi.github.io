@@ -46,22 +46,36 @@ function armarEquipos() {
 
         //Armo equipo 1
         i = 0;
-        var promedioSkillEquipo;
+        var promedioSkillEquipo1;
+        var promedioSkillEquipo2;
         var equipo1 = [];
+        var equipo2 = [];
         //Asigno un jugador de tier alto
         equipo1.push(jugadores.shift())
+        equipo2.push(jugadores.shift())
         i++
         while (i < numJugadores / 2) {
             //Saco promedio de mi equipo y lo comparo al skillPromedioPorJugador
             //Si es mayor, saco tier bajo. Si es menor, saco tier alto
-            const skillTotalDelEquipo = equipo1.reduce((accumulator, object) => {
+            //Turno Equipo 1
+            const skillTotalDelEquipo1 = equipo1.reduce((accumulator, object) => {
                 return accumulator + object.puntaje;
             }, 0);
-            promedioSkillEquipo = skillTotalDelEquipo / equipo1.length;
-            if (promedioSkillEquipo >= skillPromedioPorJugador) {
+            promedioSkillEquipo1 = skillTotalDelEquipo1 / equipo1.length;
+            if (promedioSkillEquipo1 > skillPromedioPorJugador) {
                 equipo1.push(jugadores.pop())
             } else {
                 equipo1.push(jugadores.shift())
+            }
+            //Turno Equipo 2
+            const skillTotalDelEquipo2 = equipo2.reduce((accumulator, object) => {
+                return accumulator + object.puntaje;
+            }, 0);
+            promedioSkillEquipo2 = skillTotalDelEquipo2 / equipo2.length;
+            if (promedioSkillEquipo2 > skillPromedioPorJugador) {
+                equipo2.push(jugadores.pop())
+            } else {
+                equipo2.push(jugadores.shift())
             }
             i++
 
@@ -70,7 +84,6 @@ function armarEquipos() {
         //Team 1
         console.log(equipo1)
         //Team 2 = lo que queda en el array de jugadores 
-        var equipo2=jugadores;   
         console.log(equipo2)
 
         const equipoAzulList = document.getElementById("modalEquipoAzul");
