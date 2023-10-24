@@ -3,41 +3,97 @@ function armarEquipos() {
     const jugadoresInputTier2 = document.getElementById("jugadoresTier2");
     const jugadoresInputTier3 = document.getElementById("jugadoresTier3");
 
-    const jugadoresTier1 = jugadoresInputTier1.value.split(",").map(jugador => jugador.trim());
-    const jugadoresTier2 = jugadoresInputTier2.value.split(",").map(jugador => jugador.trim());
-    const jugadoresTier3 = jugadoresInputTier3.value.split(",").map(jugador => jugador.trim());
+    var jugadoresTier1 = jugadoresInputTier1.value.split(",").map(jugador => jugador.trim());
+    var jugadoresTier2 = jugadoresInputTier2.value.split(",").map(jugador => jugador.trim());
+    var jugadoresTier3 = jugadoresInputTier3.value.split(",").map(jugador => jugador.trim());
 
-    if (jugadoresTier1.length < 2 || jugadoresTier2.length < 2 || jugadoresTier3.length < 2) {
-        alert("Cada tier debe tener al menos 2 jugadores.");
-        return;
+    numJugadores = jugadoresTier1.length + jugadoresTier2.length + jugadoresTier3.length;
+
+    console.log("Cantidad de jugadores: " + numJugadores);
+
+    if (numJugadores % 2 !== 0) {
+        alert("La cantidad de jugadores debe ser par");
+    } else {
+        calcularEquipos();
     }
 
-    const equipoAzulList = document.getElementById("modalEquipoAzul");
-    const equipoNaranjaList = document.getElementById("modalEquipoNaranja");
-
-    equipoAzulList.innerHTML = ""; // Limpiar la lista
-    equipoNaranjaList.innerHTML = "";
-
-    let colorAzul = "primary"; // Color azul para los jugadores del equipo azul
-    let colorNaranja = "warning"; // Color naranja para los jugadores del equipo naranja
-
-    while (jugadoresTier1.length > 0 || jugadoresTier2.length > 0 || jugadoresTier3.length > 0) {
-        if (jugadoresTier1.length > 0) {
-            agregarJugadorALista(jugadoresTier1.shift(), "Tier 1", equipoAzulList, colorAzul);
-            agregarJugadorALista(jugadoresTier1.shift(), "Tier 1", equipoNaranjaList, colorNaranja);
+    function calcularEquipos() {
+        //Primero les asigno el valor del tier a cada jugador - Tier 1: Puntaje 3, Tier 2: Puntaje 2, Tier 3: Puntaje 1
+        for (let i = 0; i < jugadoresTier1.length; i++) {
+            jugadoresTier1[i] = { nombre: jugadoresTier1[i], puntaje: 3, tier: "Tier 1" }
         }
-        if (jugadoresTier2.length > 0) {
-            agregarJugadorALista(jugadoresTier2.shift(), "Tier 2", equipoAzulList, colorAzul);
-            agregarJugadorALista(jugadoresTier2.shift(), "Tier 2", equipoNaranjaList, colorNaranja);
+        for (i = 0; i < jugadoresTier2.length; i++) {
+            jugadoresTier2[i] = { nombre: jugadoresTier2[i], puntaje: 2, tier: "Tier 2"  }
         }
-        if (jugadoresTier3.length > 0) {
-            agregarJugadorALista(jugadoresTier3.shift(), "Tier 3", equipoAzulList, colorAzul);
-            agregarJugadorALista(jugadoresTier3.shift(), "Tier 3", equipoNaranjaList, colorNaranja);
+        for (i = 0; i < jugadoresTier3.length; i++) {
+            jugadoresTier3[i] = { nombre: jugadoresTier3[i], puntaje: 1, tier: "Tier 3"  }
         }
+
+        //Junto todos los jugadores en un único array
+
+        var jugadores = jugadoresTier1.concat(jugadoresTier2, jugadoresTier3);
+        console.log(jugadores)
+
+        //Suma total de los skills de los jugadores
+        const totalSkill = jugadores.reduce((accumulator, object) => {
+            return accumulator + object.puntaje;
+        }, 0);
+        console.log("Total Skill: " + totalSkill)
+        skillPromedioPorEquipo = totalSkill / 2;
+        console.log("Total Skill por equipo: " + skillPromedioPorEquipo)
+        skillPromedioPorJugador = totalSkill / numJugadores;
+        console.log("Skill promedio por jugador: " + skillPromedioPorJugador)
+
+        //Armo equipo 1
+        i = 0;
+        var promedioSkillEquipo;
+        var equipo1 = [];
+        //Asigno un jugador de tier alto
+        equipo1.push(jugadores.shift())
+        i++
+        while (i < numJugadores / 2) {
+            //Saco promedio de mi equipo y lo comparo al skillPromedioPorJugador
+            //Si es mayor, saco tier bajo. Si es menor, saco tier alto
+            const skillTotalDelEquipo = equipo1.reduce((accumulator, object) => {
+                return accumulator + object.puntaje;
+            }, 0);
+            promedioSkillEquipo = skillTotalDelEquipo / equipo1.length;
+            if (promedioSkillEquipo >= skillPromedioPorJugador) {
+                equipo1.push(jugadores.pop())
+            } else {
+                equipo1.push(jugadores.shift())
+            }
+            i++
+
+        }
+
+        //Team 1
+        console.log(equipo1)
+        //Team 2 = lo que queda en el array de jugadores 
+        var equipo2=jugadores;   
+        console.log(equipo2)
+
+        const equipoAzulList = document.getElementById("modalEquipoAzul");
+        const equipoNaranjaList = document.getElementById("modalEquipoNaranja");
+
+        equipoAzulList.innerHTML = ""; // Limpiar la lista
+        equipoNaranjaList.innerHTML = "";
+
+        let colorAzul = "primary"; // Color azul para los jugadores del equipo azul
+        let colorNaranja = "warning"; // Color naranja para los jugadores del equipo naranja
+
+        for (i = 0; i < equipo1.length; i++) {
+            agregarJugadorALista(equipo1[i].nombre, equipo1[i].tier, equipoAzulList, colorAzul);
+            agregarJugadorALista(equipo2[i].nombre, equipo2[i].tier, equipoNaranjaList, colorNaranja);
+        }
+
+        // Mostrar el modal
+        $('#equiposModal').modal('show');
+
+        return
     }
 
-    // Mostrar el modal
-    $('#equiposModal').modal('show');
+    
 }
 
 // Esta función muestra el toast
@@ -86,20 +142,17 @@ function formatearEquipo(equipo) {
 }
 
 
-
-
-
 // Función para agregar un jugador a la lista con el estilo deseado y el tier
 function agregarJugadorALista(nombreJugador, tier, lista, estilo) {
     const listItem = document.createElement("li");
     listItem.classList.add("list-group-item", `list-group-item-${estilo}`, "d-flex", "justify-content-between", "align-items-center");
     listItem.textContent = nombreJugador;
-    
+
     // Agregar el badge con el tier del jugador
     const badge = document.createElement("span");
     badge.classList.add("badge", `bg-primary`, "rounded-pill");
     badge.textContent = tier;
-    
+
     listItem.appendChild(badge);
 
     lista.appendChild(listItem);
