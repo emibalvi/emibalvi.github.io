@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $mail->setFrom($email, $name);
 
       // Destinatario
-      $mail->addAddress('correo-destino@dominio-destino.com');
+      $mail->addAddress('send@fixbit.com.ar');
 
       // Asunto y contenido del correo
       $mail->Subject = $subject;

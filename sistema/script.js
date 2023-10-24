@@ -20,7 +20,8 @@ class Alumno {
                 <h5 class="card-title">${this.nombre}</h5>
                 <p class="card-text">Notas: ${this.notas.join(', ')}</p>
                 <p class="card-text">Promedio: ${this.calcularPromedio().toFixed(2)}</p>
-                <button class="btn btn-danger btn-eliminar">Eliminar Alumno</button>
+                <button class="btn btn-primary btn-eliminar btn-sm">Eliminar</button>
+                <button class="btn btn-info btn-editar btn-sm">Editar</button>
             </div>
         </div>`;
     }
@@ -100,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nombreInput = document.getElementById('nombre');
     const notasInput = document.getElementById('notas');
     const errorContainer = document.getElementById('errorContainer');
-    const contenedorAlumnos = document.getElementById('contenedor_alumnos');
     const contenedorAlumnosModal = document.getElementById('contenedor_alumnos_modal');
     const btnMostrarAlumnos = document.getElementById('btnMostrarAlumnos');
     const btnAprobadosModal = document.getElementById('btnAprobadosModal');
@@ -110,13 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnBuscar = document.getElementById('btnBuscar');
     const btnMostrarMaterias = document.getElementById('btnMostrarMaterias');
     const contenedorMateriasModal = document.getElementById('contenedor_materias_modal');
-    const btnMostrarNoticias = document.getElementById('btnMostrarNoticias');
-    const contenedorNoticias = document.getElementById('contenedor_modal_noticias');
     const btnMostrarClima = document.getElementById('btnMostrarClima');
     const modalInstructivo = new bootstrap.Modal(document.getElementById('modalInstructivo'));
+    const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
-    // Abrir el instructivo al abrir la web
+    // Abrir el instructivo al principio
     modalInstructivo.show();
+
+    inputBuscar.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            btnBuscar.click();
+            event.preventDefault();
+        }
+    });
 
     nombreInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -131,18 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
         }
     });
-    
+
+
     btnMostrarMaterias.addEventListener('click', async () => {
         try {
             // Cargar las materias desde el archivo materias.json
-            const response = await fetch('materias.json');
+            const response = await fetch('./materias.json');
             if (!response.ok) {
                 throw new Error('No se pudo cargar el archivo de materias.');
             }
 
             listaMaterias = await response.json();
 
-            // Mostrar las materias en el modal
+            // Mostrar las materias
             mostrarMaterias(contenedorMateriasModal, listaMaterias);
         } catch (error) {
             console.error(error);
@@ -150,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Función para mostrar las materias en el modal
+    // Mostrar las materias
     function mostrarMaterias(contenedor, materias) {
         contenedor.innerHTML = '';
 
@@ -207,24 +214,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mostrar la lista de alumnos
+    
     btnMostrarAlumnos.addEventListener('click', () => {
         controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
     });
 
-    // Filtrar y mostrar aprobados
+    
     btnAprobadosModal.addEventListener('click', () => {
         const aprobados = controladorAlumnos.listaAlumnos.filter(alumno => alumno.calcularPromedio() >= 7);
         controladorAlumnos.mostrarAlumnos(contenedorAlumnosModal, aprobados);
     });
 
-    // Filtrar y mostrar desaprobados
+    
     btnDesaprobadosModal.addEventListener('click', () => {
         const desaprobados = controladorAlumnos.listaAlumnos.filter(alumno => alumno.calcularPromedio() < 7);
         controladorAlumnos.mostrarAlumnos(contenedorAlumnosModal, desaprobados);
     });
 
-    // Mostrar todos los alumnos
+    
     btnTodosModal.addEventListener('click', () => {
         controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
     });
@@ -250,49 +257,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-    }); // Función para mostrar el modal de noticias
-    function mostrarModalNoticias() {
-        obtenerNoticias(); // Obtener las noticias antes de abrir el modal
-        $('#modalNoticias').modal('show'); // Abre el modal de noticias
-    }
-
-    btnMostrarNoticias.addEventListener('click', mostrarModalNoticias);
-
-    // Función para obtener las noticias de la API de GNews
-    async function obtenerNoticias() {
-        try {
-            const apiKey = '6bdb9c0241cf4ae5a8eccaef45015115'; // Tu clave de API de NewsAPI
-            const apiUrl = `https://newsapi.org/v2/everything?domains=clarin.com&q=science&apiKey=${apiKey}`;
-
-            const response = await fetch(apiUrl);
-
-            if (!response.ok) {
-                throw new Error('No se pudo obtener las noticias.');
+    });
+    // Editar un alumno
+    
+contenedorAlumnosModal.addEventListener('click', (event) => {
+    
+    if (event.target.classList.contains('btn-editar')) {
+        const tarjeta = event.target.closest('.card');
+        if (tarjeta) {
+            const indice = Array.from(contenedorAlumnosModal.children).indexOf(tarjeta);
+            if (indice !== -1) {
+                const alumno = controladorAlumnos.listaAlumnos[indice];
+                abrirModalEdicion(alumno, indice);
             }
-
-            const noticias = await response.json();
-            mostrarNoticias(noticias.articles);
-        } catch (error) {
-            console.error(error);
-            alert('Hubo un error al obtener las noticias.');
         }
     }
+});
 
-    // Función para mostrar las noticias en el modal
-    function mostrarNoticias(noticias) {
-        contenedorNoticias.innerHTML = '';
+// Abrir el modal de edición y cargar datos del alumno
+function abrirModalEdicion(alumno, indice) {
+    const modalEditarAlumno = new bootstrap.Modal(document.getElementById('modalEditarAlumno'));
+    const nuevoNombreInput = document.getElementById('nuevoNombre');
+    const nuevasNotasInput = document.getElementById('nuevasNotas');
 
-        noticias.forEach((noticia) => {
-            contenedorNoticias.innerHTML += `
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">${noticia.title}</h5>
-                        <p class="card-text">${noticia.description}</p>
-                        <a href="${noticia.url}" target="_blank" class="btn btn-primary">Leer más</a>
-                    </div>
-                </div>`;
-        });
+    nuevoNombreInput.value = alumno.nombre;
+    nuevasNotasInput.value = alumno.notas.join(', ');
+    
+    modalEditarAlumno.show();
+
+    nuevoNombreInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            nuevasNotasInput.focus(); 
+
+        }
+    });
+
+    nuevasNotasInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            guardarCambios();
+            event.preventDefault(); 
+        }
+    });
+    
+    btnGuardarCambios.addEventListener('click', () => {
+        guardarCambios();
+    });
+    
+    function guardarCambios() {
+        const nuevoNombre = nuevoNombreInput.value.trim();
+        const nuevasNotas = nuevasNotasInput.value.split(',').map((nota) => parseFloat(nota.trim()));
+    
+        const notasValidas = nuevasNotas.every((nota) => !isNaN(nota) && nota >= 0 && nota <= 10);
+    
+        if (nuevoNombre.trim() && nuevasNotas.length > 0 && notasValidas) {
+            alumno.nombre = nuevoNombre.trim();
+            alumno.notas = nuevasNotas;
+            controladorAlumnos.mostrarAlumnosModal(contenedorAlumnosModal, controladorAlumnos.listaAlumnos);
+            controladorAlumnos.guardarEnStorage();
+    
+            Swal.fire({
+                icon: 'success',
+                title: 'Alumno actualizado',
+                text: 'Los datos del alumno se han actualizado correctamente.',
+                showConfirmButton: false,
+                timer: 1200
+            });
+    
+            modalEditarAlumno.hide();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor ingrese un nombre válido y notas válidas (0-10) separadas por comas.',
+                confirmButtonText: 'Cerrar'
+            
+            });
+        }
     }
+}
 
 
     // Función para mostrar el modal de clima

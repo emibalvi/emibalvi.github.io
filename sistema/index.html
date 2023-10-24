@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de gestion de alumnos</title>
-
+    <link href="./favicon.ico" rel="icon">
     <!-- CDN BOOTSWATCH CSS -->
     <link rel="stylesheet" href="https://bootswatch.com/5/journal/bootstrap.min.css">
 
@@ -17,20 +17,23 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body>
-    <header>
+<body class="bg-secondary">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-body">
+    <header >
         <!-- NAVBAR BOOTSWATCH -->
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg bg-primary rounded" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Sistema de gestion de alumnos</a>
+                <a class="navbar-brand">Sistema de gestion</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                     aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav ms-auto ">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Inicio
+                            <a class="nav-link active" href="./index.html">Inicio
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
@@ -38,11 +41,6 @@
                             <a class="nav-link" href="#" id="btnMostrarMaterias" data-bs-toggle="modal"
                                 data-bs-target="#modalMaterias">
                                 Materias
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" id="btnMostrarNoticias">
-                                Noticias
                             </a>
                         </li>
                         <li class="nav-item">
@@ -76,7 +74,7 @@
 
         <!-- Mostrar la lista de alumnos -->
         <div class="modal fade" id="modalAlumnos" tabindex="-1" aria-labelledby="modalAlumnosLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -89,8 +87,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="btn-group mb-3" role="group">
+                            
                             <button type="button" class="btn btn-success" id="btnAprobadosModal">Aprobados</button>
-                            <button type="button" class="btn btn-danger" id="btnDesaprobadosModal">Desaprobados</button>
+                            <button type="button" class="btn btn-primary" id="btnDesaprobadosModal">Desaprobados</button>
                             <button type="button" class="btn btn-secondary" id="btnTodosModal">Todos</button>
                         </div>
                         <div id="contenedor_alumnos_modal"></div>
@@ -102,8 +101,7 @@
             </div>
         </div>
 
-        <div class="mt-4" id="contenedor_alumnos"></div>
-
+        <!-- Mostrar Materias -->
         <div class="modal fade" id="modalMaterias" tabindex="-1" aria-labelledby="modalMateriasLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -122,9 +120,10 @@
             </div>
         </div>
 
+        <!-- Mostrar instructivo -->
         <div class="modal fade" id="modalInstructivo" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Bienvenido/a al sistema de gestión de alumnos
@@ -149,26 +148,42 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         
 
         <!-- Contenedor para mostrar las noticias en el modal -->
         <div class="modal fade" id="modalNoticias" tabindex="-1" aria-labelledby="modalNoticiasLabel"
+=======
+        <!-- Editar alumno -->
+        <div class="modal fade" id="modalEditarAlumno" tabindex="-1" aria-labelledby="modalEditarAlumnoLabel"
+>>>>>>> 2466919deb7225c3677a5f345dfda1fad9c26b30
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalNoticiasLabel">Noticias</h5>
+                        <h5 class="modal-title" id="modalEditarAlumnoLabel">Editar Alumno</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="contenedor_modal_noticias"></div>
+                        <form id="formularioEditarAlumno">
+                            <div class="mb-3">
+                                <label for="nuevoNombre" class="form-label">Nuevo Nombre</label>
+                                <input type="text" class="form-control" id="nuevoNombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nuevasNotas" class="form-label">Nuevas Notas (separadas por comas)</label>
+                                <input type="text" class="form-control" id="nuevasNotas" required>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="btnGuardarCambios">Guardar Cambios</button>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Modal de Clima -->
         <div class="modal fade" id="modalClima" tabindex="-1" aria-labelledby="modalClimaLabel" aria-hidden="true">
@@ -186,11 +201,15 @@
                 </div>
             </div>
         </div>
+
+        
     </main>
     <footer class="text-center mt-5">
-        <p>Emiliano Balvidares - Sistema de gestion de alumnos</p>
+        <p class="small text-muted">
+            Emiliano Balvidares - Sistema de gestión de alumnos
+        </p>
     </footer>
-
+</div></div></div>
     <!-- CDN BOOTSTRAP JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
