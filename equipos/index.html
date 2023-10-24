@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sistema espectacular de armado de equipos</title>
+    <link href="./favicon.png" rel="icon">
+    <meta charset="UTF-8">
+    <!-- Enlaces a las bibliotecas Bootstrap CSS y JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- CDN BOOTSWATCH CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-body">
+    <header >
+        <!-- NAVBAR BOOTSWATCH -->
+        <nav class="navbar navbar-expand-lg bg-dark rounded" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">Sistema espectacular de creacion de equipos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav ms-auto ">
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+        <form class="mt-4">
+            <div class="form-group">
+                <label for="jugadores">Ingrese los nombres de los jugadores:</label>
+                <input type="text" class="form-control mb-2" id="jugadoresTier1" placeholder="Tier 1">
+                <input type="text" class="form-control mb-2" id="jugadoresTier2" placeholder="Tier 2">
+                <input type="text" class="form-control mb-2" id="jugadoresTier3" placeholder="Tier 3">
+            </div>
+            
+            <button type="button" class="btn btn-dark" onclick="armarEquipos()">Armar Equipos</button>
+        </form>
+    </div>
+    
+    <!-- Modal para mostrar los equipos -->
+<div class="modal fade" id="equiposModal" tabindex="-1" role="dialog" aria-labelledby="equiposModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="modal-title" id="equiposModalLabel">
+                            <img src="azul.png" alt="Escudo Azul" class="mr-2" width="40" height="40">
+                            Equipo Azul
+                        </h2>
+                        <ul class="list-group" id="modalEquipoAzul">
+                            <!-- Equipos Azul se generan aquí -->
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h2 class="modal-title" id="equiposModalLabel">
+                            <img src="naranja.png" alt="Escudo Naranja" class="mr-2" width="40" height="40">
+                            Equipo Naranja
+                        </h2>
+                        <ul class="list-group" id="modalEquipoNaranja">
+                            <!-- Equipos Naranja se generan aquí -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="copiarEquipos()">Copiar</button>
+            </div>
+            <div class="toast" id="copiarToast" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; bottom: 20px; right: 20px; z-index: 1050;">
+                <div class="toast-header">
+                    <strong class="me-auto">Copiado al portapapeles</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Equipos copiados al portapapeles.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+
+</html>
